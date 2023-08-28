@@ -63,12 +63,21 @@ songs = get_songs_by_artist(token, artist_id)
 playlist_id = "4Gkbj4A2Xke8mT8B5MKb4e?si=90d30b6a1c854115"
 playlist = get_playlist_items(token, playlist_id)
 
-counter = 0
-for track in playlist:
-    counter += 1
-    print(f"{track['track']['artists'][0]['name']}: {track['track']['name']}")
-print(counter)
-    
+artist_song_dict = {}
 
-#for idx, song in enumerate(songs):
-#    print(f"{idx + 1}. {song['name']}")
+for track in playlist:
+    if track['track']['artists'][0]['name'] in artist_song_dict:
+        artist_song_dict[track['track']['artists'][0]['name']].append(track['track']['name'])
+    else:
+        artist_song_dict[track['track']['artists'][0]['name']] = [track['track']['name']]
+print(artist_song_dict)
+
+total_values = 0
+
+for value in artist_song_dict.values():
+    if isinstance(value, list):
+        total_values += len(value)
+    else:
+        total_values += 1
+
+print(total_values)
